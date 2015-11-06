@@ -79,7 +79,9 @@ module.exports = (repo, {stageChanges, andPush}={}) ->
         commit(dir(repo), filePath)
         .then -> (GitPull(repo).then -> GitPush(repo)) if andPush
       disposables.add textEditor.onDidDestroy -> cleanup currentPane, filePath
-    .catch (msg) -> notifier.addError msg
+    .catch (msg) ->
+      console.debug 'Error during "showFile"'
+      notifier.addError msg
 
   if stageChanges
     git.add(repo, update: stageChanges).then -> init().then -> startCommit()
@@ -87,6 +89,7 @@ module.exports = (repo, {stageChanges, andPush}={}) ->
     init().then -> startCommit()
     .catch (message) ->
       if message.includes 'CRLF'
+        console.debug 'Error during "init"'
         startCommit()
       else
         notifier.addInfo message

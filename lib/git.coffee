@@ -52,7 +52,7 @@ module.exports = git =
           args: args
           options: options
           stdout: (data) -> output += data.toString()
-          stderr: (data) -> unless data.includes 'CRLF' reject data.toString()
+          stderr: (data) -> reject data.toString() unless data.includes 'CRLF' 
           exit: (code) -> resolve output
       catch
         notifier.addError 'Git Plus is unable to locate the git command. Please ensure process.env.PATH can access git.'

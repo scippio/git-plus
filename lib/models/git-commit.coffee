@@ -89,6 +89,6 @@ module.exports = (repo, {stageChanges, andPush}={}) ->
     init().then -> startCommit()
     .catch (message) ->
       if message.includes 'CRLF'
-        console.debug 'Error during "init"'
+        console.debug 'Error during "init" with CRLF'
         startCommit()
       notifier.addInfo message
